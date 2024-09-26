@@ -8,11 +8,12 @@ class Characters:
         self.level = level
         self.exp = 0
 
-    def levelup(self, level=1):
+    def levelup(self, level=1): #Hay que agregar mas niveles, subir la vida, si el nivel sube 
         if self.exp >= 100:
             level += 1
-    
-    def experience(self, exp=0):
+        #Subir vida y subir escudo
+        
+    def experience(self, exp=0): #Nivel de experiencia sube a medida que derrotamos enemigos (en progreso)
         pass
 
     def __repr__(self):
@@ -21,8 +22,8 @@ class Characters:
             description = "Un **Guerrero** es un luchador fuerte y hábil en combate cuerpo a cuerpo, usando armas pesadas y gran resistencia física para liderar en batalla."
         elif self.type == "Mago":
             description = "Un Mago es un maestro de las artes arcanas, usando poderosos hechizos para atacar a distancia y controlar el campo de batalla."
-        elif self.type == "Ogro":
-            description = "Un **Ogro** es una criatura enorme y brutal, con gran fuerza física pero poca inteligencia. Es temido por su poder destructivo y su resistencia en combate."
+        elif self.type == "Orco":
+            description = "Un **Orco** es una criatura enorme y brutal, con gran fuerza física pero poca inteligencia. Es temido por su poder destructivo y su resistencia en combate."
         elif self.type == "Caballero":
             description = "Un **Caballero** es un guerrero honorable y bien entrenado, experto en combate con espada y escudo, que defiende a los débiles y lucha con disciplina y valor."
         elif self.type == 'Archer': 

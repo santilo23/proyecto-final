@@ -7,13 +7,13 @@ class Abilities:
         self.damage = damage
 
 mage_abilities = [
-    Abilities("Rayo Arcano", "Mago", 40),
+    Abilities("Bola de Fuego", "Mago", 40),
     Abilities("Rayo de Hielo", "Mago", 30),
     Abilities("Explosión Arcana", "Mago", 50),
     Abilities("Descarga", "Mago", 30),
-    Abilities("Relámpago Encadenado", "Mago", 20),
-    Abilities("Ilusión", "Mago", 40),
-    Abilities("Congelación", "Mago", 60)
+    Abilities("Toque de Energía", "Mago", 20),
+    Abilities("Espejo de Escarcha", "Mago", 40),
+    Abilities("Nova Arcana", "Mago", 60)
 ]
 
 warrior_abilities = [
