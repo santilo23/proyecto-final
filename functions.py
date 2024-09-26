@@ -33,82 +33,38 @@ def character_introduction(): #Presentamos los personajes a elegir
     time.sleep(2)
     print(guerrero, mago, arquero, orco, caballero) 
 
-def character_creator(): #Creamos los 3 personajes (pueden ser repetidos)
-    global player_character1
-    global player_character2
-    global player_character3
+def character_creator(): #Creamos los 3 personajes
     global player_name
-    list_character = [None, None, None]
+    list_character = []
+    available_characters = ['guerrero', 'mago', 'arquero', 'orco', 'caballero']
     contador = 0
     
     while True:
-        type = input('Elige que personaje vas a utilizar: ').lower()
+        character_choose = input('Elige que personaje vas a utilizar: ').lower()
         if contador == 2:
             break
-        elif type == 'guerrero':
-            if list_character[0] == None:
-                list_character[0] = Characters(name = player_name, type = "Guerrero", health = 100, armor = 50)
+        elif character_choose in available_characters:
+            if character_choose == 'guerrero':
+                list_character.append(Characters(name = player_name, type = "Guerrero", health = 100, armor = 50))
                 contador += 1
-            elif list_character[1] == None and list_character[1] != list_character[0]:
-                list_character[1] = Characters(name = player_name, type = "Guerrero", health = 100, armor = 50)
+            elif character_choose == 'mago':
+                list_character.append(Characters(name = player_name, type = "Mago", health = 120, armor = 20))
                 contador += 1
-            elif list_character[2] == None and list_character[2] != list_character[1] and list_character[2] and list_character[0]:
-                player_character3 = Characters(name = player_name, type = "Guerrero", health = 100, armor = 50)
+            elif character_choose == 'arquero':
+                list_character.append(Characters(name = player_name, type = "Arquero", health = 90, armor = 30))
                 contador += 1
-            else:
-                print('Ya elegiste el Guerrero')
-        elif type == 'mago':
-            if list_character[0] == None:
-                list_character[0] = Characters(name = player_name, type = "Mago", health = 120, armor = 20)
+            elif character_choose == 'orco':
+                list_character.append(Characters(name = player_name, type = "Orco", health = 130, armor = 40))
                 contador += 1
-            elif list_character[1] == None and list_character[1] != list_character[0]:
-                list_character[1] = Characters(name = player_name, type = "Mago", health = 120, armor = 20)
+            elif character_choose == 'caballero':
+                list_character.append(Characters(name = player_name, type = "Caballero", health = 90, armor = 50))
                 contador += 1
-            elif list_character[2] == None and list_character[2] != list_character[1] and list_character[2] and list_character[0]:
-                list_character[2] = Characters(name = player_name, type = "Mago", health = 120, armor = 20)
-                contador += 1
-            else:
-                print('Ya elegiste el Mago')
-    print(list_character)
-    
-'''elif type == 'arquero':
-            if player_character1 == None:
-                player_character1 = Characters(name = player_name, type = "Arquero", health = 90, armor = 30)
-                contador += 1
-            elif player_character2 == None:
-                player_character2 = Characters(name = player_name, type = "Arquero", health = 90, armor = 30)
-                contador += 1
-            elif player_character3 == None:
-                player_character3 = Characters(name = player_name, type = "Arquero", health = 90, armor = 30)
-                contador += 1
-            else:
-                print('Ya elegiste el Arquero')
-        elif type == 'orco':
-            if player_character1 == None:
-                player_character1 = Characters(name = player_name, type = "Orco", health = 130, armor = 40)
-                contador += 1
-            elif player_character2 == None:
-                player_character2 = Characters(name = player_name, type = "Orco", health = 130, armor = 40)
-                contador += 1
-            elif player_character3 == None:
-                player_character3 = Characters(name = player_name, type = "Orco", health = 130, armor = 40)
-                contador += 1
-            else:
-                print('Ya elegiste el Orco')
-        elif type == 'caballero':
-            if player_character1 == None:
-                player_character1 = Characters(name = player_name, type = "Caballero", health = 90, armor = 50)
-                contador += 1
-            elif player_character2 == None:
-                player_character2 = Characters(name = player_name, type = "Caballero", health = 90, armor = 50)
-                contador += 1
-            elif player_character3 == None:
-                player_character3 = Characters(name = player_name, type = "Caballero", health = 90, armor = 50)
-                contador += 1
-            else:
-                print('Ya elegiste el Caballero')
+            available_characters.remove(character_choose)  # Eliminar el personaje elegido de la lista
         else:
-            print('Elige un personaje valido')'''
+            print('Elige un personaje valido')
+            
+    for character in list_character:
+        print(character)
 
 def Game():
     pass
