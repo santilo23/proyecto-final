@@ -1,3 +1,6 @@
+from abilities import Golpeo
+from abilities import ability_chooser
+from enemies import Enemies
 
 class Characters:
     def __init__(self, name = "" , type = "", health=int(0), armor=int(0), level=1):
@@ -7,6 +10,16 @@ class Characters:
         self.armor = armor
         self.level = level
         self.exp = 0
+        self.abilities = [Golpeo, ability_chooser(type), ability_chooser(type)] #3 habilidades, 2 al azar y una predeterminada
+        
+
+    def is_alive(self):
+        return self.armor > 0 or self.health > 0 #Si el escudo es mayor a 0 o la vida el personaje esta vivo
+
+    def receive_damage(self, damage):
+        self.armor -= damage
+        if self.armor < 0: #Si nos quedamos sin escudo, comienza a restar la vida
+            self.health -= damage 
 
     def levelup(self, level=1): #Hay que agregar mas niveles, subir la vida, si el nivel sube 
         if self.exp >= 100:
@@ -16,7 +29,7 @@ class Characters:
     def experience(self, exp=0): #Nivel de experiencia sube a medida que derrotamos enemigos (en progreso)
         pass
 
-    def __repr__(self):
+    def __repr__(self): #Caracteristicas de cada personaje(intro)
         description = ""
         if self.type == "Guerrero":
             description = "Un **Guerrero** es un luchador fuerte y hábil en combate cuerpo a cuerpo, usando armas pesadas y gran resistencia física para liderar en batalla."

@@ -5,12 +5,9 @@ from dungeons import dungeon1, dungeon2, dungeon3, dungeon4, dungeon5 #Importe l
 from enemies import Enemies
 
 player_name = None
-player_character1 = None #Dejamos vacia la variable del personaje a elegir 
-player_character2 = None 
-player_character3 = None
 player_progress = 0 
 dungeon_progress = 0 #Progreso de mazmorras, empezamos desde 0, por que no hemos completado ninguna de las 5 existentes
-list_character = [None, None, None]
+list_character = []
 
 def introductions(): #Primero imprimos la introduccion al juego
     global player_name
@@ -35,38 +32,43 @@ def character_introduction(): #Presentamos los personajes a elegir
 
 def character_creator(): #Creamos los 3 personajes
     global player_name
-    list_character = []
+    global list_character
     available_characters = ['guerrero', 'mago', 'arquero', 'orco', 'caballero']
     contador = 0
     
-    while True:
+    while contador < 3:
         character_choose = input('Elige que personaje vas a utilizar: ').lower()
-        if contador == 2:
-            break
-        elif character_choose in available_characters:
+
+        if character_choose in available_characters:
             if character_choose == 'guerrero':
                 list_character.append(Characters(name = player_name, type = "Guerrero", health = 100, armor = 50))
-                contador += 1
             elif character_choose == 'mago':
                 list_character.append(Characters(name = player_name, type = "Mago", health = 120, armor = 20))
-                contador += 1
             elif character_choose == 'arquero':
                 list_character.append(Characters(name = player_name, type = "Arquero", health = 90, armor = 30))
-                contador += 1
             elif character_choose == 'orco':
                 list_character.append(Characters(name = player_name, type = "Orco", health = 130, armor = 40))
-                contador += 1
             elif character_choose == 'caballero':
                 list_character.append(Characters(name = player_name, type = "Caballero", health = 90, armor = 50))
-                contador += 1
             available_characters.remove(character_choose)  # Eliminar el personaje elegido de la lista
+            contador += 1        
         else:
-            print('Elige un personaje valido')
-            
-    for character in list_character:
-        print(character)
+            print('Ya lo seleccionaste o no existe')
 
-def Game():
-    pass
+def game():
+    global player_progress #0
+    global dungeon_progress #0
+    current_dungeon = None #Creamos una nueva variable de mazmorra actual
+    
+    
+    dungeons = [dungeon1, dungeon2, dungeon3, dungeon4, dungeon5] #Colocamos en una lista las 5 mazmorras
+    current_dungeon = dungeons[player_progress] 
+    dungeon_progress = int(0)
+    print(f"¡Bienvenido a la mazmorra: {current_dungeon.name}!")
+    time.sleep(2)
 
-character_creator()
+        
+    
+    
+
+

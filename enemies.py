@@ -1,10 +1,13 @@
-import random 
+import random
+from abilities import Golpeo 
+from abilities import ability_chooser
 
 class Enemies:
-    def __init__(self, name, difficulty, health) -> None:
+    def __init__(self, name, difficulty, health):
         self.name = name
         self.difficulty = difficulty
         self.health = health
+        self.abilities = [Golpeo, ability_chooser(type), ability_chooser(type)]
 
 enemies_easy = [
     Enemies(name="Rata de las Sombras", difficulty="easy", health=50),
