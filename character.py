@@ -11,15 +11,6 @@ class Characters:
         self.level = level
         self.exp = 0
         self.abilities = [Golpeo, ability_chooser(type), ability_chooser(type)] #3 habilidades, 2 al azar y una predeterminada
-        
-
-    def is_alive(self):
-        return self.armor > 0 or self.health > 0 #Si el escudo es mayor a 0 o la vida el personaje esta vivo
-
-    def receive_damage(self, damage):
-        self.armor -= damage
-        if self.armor < 0: #Si nos quedamos sin escudo, comienza a restar la vida
-            self.health -= damage 
 
     def levelup(self, level=1): #Hay que agregar mas niveles, subir la vida, si el nivel sube 
         if self.exp >= 100:

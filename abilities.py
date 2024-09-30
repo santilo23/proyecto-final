@@ -81,8 +81,6 @@ def ability_chooser(character_type):
         ability = random.choice(archer_abilities)
     elif character_type == "Orco":
         ability = random.choice(orco_abilities)
-    elif character_type == "Enemy":
-        ability = random.choice(enemy_abilities)
     else:
         ability = random.choice(knight_abilities)
     return ability
