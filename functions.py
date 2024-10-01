@@ -1,9 +1,11 @@
-from character import Characters
+from character import Characters, Warrior, Magician, Archer, Orco, Knight
 import time
 import random
 from dungeons import dungeon1, dungeon2, dungeon3, dungeon4, dungeon5 #Importe la mazmorras, asi empezamos el juego y armar el sistema de ataque
 from enemies import random_enemy
 from abilities import enemy_abilities
+from CONSTANTES import BIENVENIDA, SALUDO, WARRIOR, ORCO, MAGICIAN, ARCHER, KNIGHT, TIME
+
 
 player_name = None
 player_progress = 0 
@@ -15,31 +17,27 @@ player3 = None
 
 def introductions(): #Primero imprimos la introduccion al juego
     global player_name
-    print("¡Bienvenidos aventurero! Adéntrate en un mundo lleno de misteriosas mazmorras, donde la valentía y la estrategia son tus mejores aliados. ¡Forja tu leyenda enfrentando a peligrosos enemigos y conquistando cada nivel de las mazmorras!")
+    print(BIENVENIDA)
     time.sleep(3)
     player_name = input('¿Como es tu nombre?')
     time.sleep(3)
-    print(f'¡Bienvenido {player_name}!')
+    print(SALUDO + player_name)
 
 def character_introduction(): #Presentamos los personajes a elegir 
-    guerrero = Characters(type = 'Guerrero')
-    time.sleep(2)
-    mago = Characters(type = 'Mago')
-    time.sleep(2)
-    arquero = Characters(type = 'Arquero')
-    time.sleep(2)
-    orco = Characters(type = 'Orco')
-    time.sleep(2)
-    caballero = Characters(type = 'Orco')
-    time.sleep(2)
-    print(guerrero, mago, arquero, orco, caballero) 
-
+    print(WARRIOR) #Arreglar que imprime todo junto
+    TIME
+    print(MAGICIAN)
+    TIME
+    print(ORCO)
+    TIME
+    print(KNIGHT)
+    TIME
+    print(ARCHER)
+    TIME
+    
 def character_creator(): #Creamos los 3 personajes
-    global player_name
-    global list_character
-    global player1
-    global player2
-    global player3
+    global player_name, list_character, player1, player2, player3
+
     available_characters = ['guerrero', 'mago', 'arquero', 'orco', 'caballero']
     contador = 0
     
@@ -49,15 +47,15 @@ def character_creator(): #Creamos los 3 personajes
         character_choose = input('Elige que personaje vas a utilizar: ').lower()
         if character_choose in available_characters:
             if character_choose == 'guerrero':
-                list_character.append(Characters(name = player_name, type = "Guerrero", health = 100, armor = 50))
+                list_character.append(Warrior())
             elif character_choose == 'mago':
-                list_character.append(Characters(name = player_name, type = "Mago", health = 120, armor = 20))
+                list_character.append(Magician())
             elif character_choose == 'arquero':
-                list_character.append(Characters(name = player_name, type = "Arquero", health = 90, armor = 30))
+                list_character.append(Archer())
             elif character_choose == 'orco':
-                list_character.append(Characters(name = player_name, type = "Orco", health = 130, armor = 40))
+                list_character.append(Orco())
             elif character_choose == 'caballero':
-                list_character.append(Characters(name = player_name, type = "Caballero", health = 90, armor = 50))
+                list_character.append(Knight())
             available_characters.remove(character_choose)  # Eliminar el personaje elegido de la lista
             contador += 1        
         else:
@@ -87,6 +85,7 @@ def game():
             character_attack(enemy)
         else: 
             break
+
 def player_abilities_chooser():
     while True:
                 print(f'Elige el personaje con el que deseas luchar(número):\n 1-{player1.type}\n 2-{player2.type}\n 3-{player3.type}')
@@ -143,7 +142,7 @@ def player_abilities_chooser():
                         print("Esta opción no está disponible, vuelve a intentarlo")
                         time.sleep(2)
                 else:    
-                    break
+                    break #Arreglar para que no salte error 
 
 def character_attack(enemy):
     global player1
@@ -156,20 +155,17 @@ def character_attack(enemy):
         for character in list_character:
             print(f'Personaje: {character.type}, Health: {character.health}, Armor: {character.armor}')
         print(f'Enemigo: {enemy.name}, Salud: {enemy_health}')
-        player_attack = player_abilities_chooser()
-        print(f'Ataque elegido: {player_attack.name}')
+        player_chooser = player_abilities_chooser()
+        print(f'Ataque elegido: {player_chooser.name}')
         time.sleep(2)
-        enemy_health -= player_attack.damage 
+        enemy_health -= player_chooser.damage 
         print(f'{enemy.name}, salud: {enemy_health}')
         time.sleep(2)
         enemy_attack = random.choice(enemy_abilities)
-        print(f'{player_attack.name} esta por ser atacado')
-        enemy_damage = enemy_attack.damage - player_attack.armor 
-        player_attack.health = player_attack.health - enemy_damage
+        print(f'{player_chooser.name} esta por ser atacado')
+        
         time.sleep(2)
-        break
+        
 
 character_creator()
 game()
-
-    

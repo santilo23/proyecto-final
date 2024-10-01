@@ -20,19 +20,46 @@ class Characters:
     def experience(self, exp=0): #Nivel de experiencia sube a medida que derrotamos enemigos (en progreso)
         pass
 
-    def __repr__(self): #Caracteristicas de cada personaje(intro)
-        description = ""
-        if self.type == "Guerrero":
-            description = "Un **Guerrero** es un luchador fuerte y hábil en combate cuerpo a cuerpo, usando armas pesadas y gran resistencia física para liderar en batalla."
-        elif self.type == "Mago":
-            description = "Un Mago es un maestro de las artes arcanas, usando poderosos hechizos para atacar a distancia y controlar el campo de batalla."
-        elif self.type == "Orco":
-            description = "Un **Orco** es una criatura enorme y brutal, con gran fuerza física pero poca inteligencia. Es temido por su poder destructivo y su resistencia en combate."
-        elif self.type == "Caballero":
-            description = "Un **Caballero** es un guerrero honorable y bien entrenado, experto en combate con espada y escudo, que defiende a los débiles y lucha con disciplina y valor."
-        elif self.type == 'Archer': 
-            description = "Un **Arquero** es un combatiente ágil y preciso, experto en atacar a distancia con su arco, aprovechando su velocidad y destreza para golpear desde lejos y evadir ataques."
-        return description
+    def __repr__(self):  # Representación de características
+        return f"Name: {self.name}, Type: {self.type}, Health: {self.health}, Armor: {self.armor}, Level: {self.level}"
 
+class Warrior(Characters):
+    def __init__(self, name=""):
+        super().__init__(name, type="Guerrero", health=150, armor=100, level=1)
+        self.abilities = [Golpeo, ability_chooser(self.type), ability_chooser(self.type)]  
+    
+    def __repr__(self):
+        return "Un **Guerrero** es un luchador fuerte y hábil en combate cuerpo a cuerpo."
 
+class Magician(Characters):
+    def __init__(self, name=""):
+        super().__init__(name, type="Mago", health=80, armor=30, level=1)
+        self.abilities = [Golpeo, ability_chooser(self.type), ability_chooser(self.type)]
+    
+    def __repr__(self):
+        return "Un **Mago** es un maestro de las artes arcanas, usando poderosos hechizos." 
+
+class Orco(Characters):
+    def __init__(self, name=""):
+        super().__init__(name, type="Orco", health=200, armor=50, level=1)
+        self.abilities = [Golpeo, ability_chooser(self.type), ability_chooser(self.type)]
+    
+    def __repr__(self):
+        return "Un **Orco** es una criatura enorme y brutal, con gran fuerza física."
+
+class Knight(Characters):
+    def __init__(self, name=""):
+        super().__init__(name, type="Caballero", health=130, armor=120, level=1)
+        self.abilities = [Golpeo, ability_chooser(self.type), ability_chooser(self.type)]
+    
+    def __repr__(self):
+        return "Un **Caballero** es un guerrero honorable y bien entrenado, experto en combate con espada."
+
+class Archer(Characters):
+    def __init__(self, name=""):
+        super().__init__(name, type="Archer", health=90, armor=40, level=1)
+        self.abilities = [Golpeo, ability_chooser(self.type), ability_chooser(self.type)]
+    
+    def __repr__(self):
+        return "Un **Arquero** es un combatiente ágil y preciso, experto en ataques a distancia."
 
