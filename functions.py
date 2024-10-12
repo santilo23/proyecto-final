@@ -4,7 +4,7 @@ import random
 from dungeons import dungeon1, dungeon2, dungeon3, dungeon4, dungeon5 #Importe la mazmorras, asi empezamos el juego y armar el sistema de ataque
 from enemies import random_enemy
 from abilities import enemy_abilities
-from CONSTANTES import BIENVENIDA, SALUDO, WARRIOR, ORCO, MAGICIAN, ARCHER, KNIGHT, TIME
+from CONSTANTES import BIENVENIDA, SALUDO, WARRIOR, ORCO, MAGICIAN, ARCHER, KNIGHT, TIME, OPTION
 
 
 player_name = None
@@ -40,11 +40,11 @@ def character_creator(): #Creamos los 3 personajes
 
     available_characters = ['guerrero', 'mago', 'arquero', 'orco', 'caballero']
     contador = 0
-    
+    i = 0
     while contador < 3:
         for character in available_characters:
-            print(character)
-        character_choose = input('Elige que personaje vas a utilizar: ').lower()
+            print(character.capitalize(), end=' / ')
+        character_choose = input(f'\nElige que personaje vas a utilizar: ').lower()
         if character_choose in available_characters:
             if character_choose == 'guerrero':
                 list_character.append(Warrior())
@@ -77,20 +77,23 @@ def game():
     print(f"¡Bienvenido a la mazmorra: {current_dungeon.name}!")
     time.sleep(2)
 
-    while dungeon_progress < 5:
-        if current_dungeon.name == "Las Catacumbas del Olvido":
-            enemy = current_dungeon.enemies[dungeon_progress]
-            print(f'Nivel {dungeon_progress + 1} : {enemy.name}')
-            time.sleep(2)
+    while dungeon_progress < 5:  
+        if dungeon_progress == 4:
+            print("¡Has llegado al jefe final!")
+            enemy = current_dungeon.enemies[4]
             character_attack(enemy)
-        else: 
-            break
+        else:
+            enemy = current_dungeon.enemies[dungeon_progress]
+            print(f"Nivel {dungeon_progress + 1}: {enemy.name}")
+            time.sleep(3)
+            character_attack(enemy)
+    print("¡Has completado todas las mazmorras!")
+    time.sleep(3)
 
-def player_abilities_chooser():
+def player_abilities_chooser(player):
     while True:
-                print(f'Elige el personaje con el que deseas luchar(número):\n 1-{player1.type}\n 2-{player2.type}\n 3-{player3.type}')
-                choice = int(input(''))
-                if choice == 1:
+                
+                if player == player1:
                     print(f'Elegiste {player1.type}')
                     print("HABILIDADES: ")
                     print(f"1-{player1.abilities[0].name}, Daño: {player1.abilities[0].damage}")
@@ -107,7 +110,8 @@ def player_abilities_chooser():
                     else:
                         print("Esta opción no está disponible, vuelve a intentarlo")
                         time.sleep(2)
-                elif choice == 2:
+                    
+                elif player == player2:
                     print(f'Elegiste {player2.type}')
                     print("HABILIDADES: ")
                     print(f"1-{player2.abilities[0].name}, Daño: {player2.abilities[0].damage}")
@@ -124,7 +128,7 @@ def player_abilities_chooser():
                     else:
                         print("Esta opción no está disponible, vuelve a intentarlo")
                         time.sleep(2)
-                elif choice == 3:
+                elif player == player3:
                     print(f'Elegiste {player3.type}')
                     print("HABILIDADES: ")
                     print(f"1-{player3.abilities[0].name}, Daño: {player3.abilities[0].damage}")
@@ -142,29 +146,92 @@ def player_abilities_chooser():
                         print("Esta opción no está disponible, vuelve a intentarlo")
                         time.sleep(2)
                 else:    
-                    break #Arreglar para que no salte error 
+                    print(OPTION)
+                break
+def character_chooser():
+    global list_character, player1, player2, player3
+    i = 1
 
+    for character in list_character:
+        print(f'{i}- Personaje: {character.type}, Health: {character.health}, Armor: {character.armor}')
+        i += 1
+    choice = int(input('Elige el Heroe con el que deseas atacar: '))
+    if choice == 1: 
+        return player1
+    elif choice == 2:
+        return player2
+    elif choice == 3:
+        return player3
+    else:
+        print(OPTION)
+        
 def character_attack(enemy):
     global player1
     global player2
     global player3
+    global player_progress
+    global dungeon_progress
     global list_character
-    enemy_health = enemy.health
+    enemy_health = enemy.health 
+
 
     while list_character is not None and enemy_health > 0:
-        for character in list_character:
-            print(f'Personaje: {character.type}, Health: {character.health}, Armor: {character.armor}')
+        player = character_chooser()
         print(f'Enemigo: {enemy.name}, Salud: {enemy_health}')
-        player_chooser = player_abilities_chooser()
-        print(f'Ataque elegido: {player_chooser.name}')
+        player_attack = player_abilities_chooser(player) #Seleccionar la habilidad del jugador 
+        print(f'Ataque elegido: {player_attack.name}')
         time.sleep(2)
-        enemy_health -= player_chooser.damage 
-        print(f'{enemy.name}, salud: {enemy_health}')
+        enemy_attack = random.choice(enemy_abilities) #Selecionar las habilidades del enemigo
+        print("3... 2... 1...")
         time.sleep(2)
-        enemy_attack = random.choice(enemy_abilities)
-        print(f'{player_chooser.name} esta por ser atacado')
+
+        player_damage = player_attack.damage #Ataque de jugador
+        enemy_health -= player_damage  
+        print("¡Ataque realizado con éxito!")
+        time.sleep(2)
+
+        print("El enemigo responde con:", enemy_attack.name) #Ataque enemigo
+        enemy_damage = enemy_attack.damage 
+
+        if player.armor > 0:
+            if enemy_damage <= player.armor:
+                player.armor -= enemy_damage  # El daño solo afecta a la armadura
+                net_damage = 0
+                print(f"La armadura absorbió todo el daño. Armadura restante: {player.armor}")
+            else:
+                net_damage = enemy_damage - player.armor  # El daño restante afecta a la vida
+                print(f"La armadura absorbió {player.armor} de daño.")
+                player.armor = 0  # La armadura se agota
+                player.health -= net_damage  # El daño restante se resta de la salud
+                print(f"Daño restante que afectó la salud: {net_damage}")
+        else:
+            # Si no hay armadura, el daño va directo a la salud
+            player.health -= enemy_damage
+            print(f"Daño recibido: {enemy_damage}")
+
+        time.sleep(2)
         
-        time.sleep(2)
+
+        # Verificar si el jugador o el enemigo han sido derrotados
+        if player.health <= 0:
+            print(f"{player.name} ha sido derrotado.")
+            list_character.remove(player)  # Eliminar al jugador de la lista si es derrotado
+            if not list_character:  # Si no quedan jugadores
+                print("Todos los personajes han sido derrotados. ¡Fin del juego!")
+                break
+
+        if enemy_health <= 0:
+            print(f"¡El enemigo {enemy.name} ha sido derrotado!") 
+            dungeon_progress += 1 #Sumamos 1 cada vez que derrotamos a un enemigo 1 de 5
+            if dungeon_progress < 5: 
+                print(f"Progreso en la mazmorra: {dungeon_progress + 1} de 5")
+                time.sleep(3) 
+            else:
+                print("¡Has completado la mazmorra!")
+                time.sleep(2)
+                player_progress += 1 #Avanza a la siguiente mazmorra 
+                dungeon_progress = 0 #Vuelve a 0 ya que tiene 5 enemegos en la proxima mazmorra
+                time.sleep(3)
         
 
 character_creator()

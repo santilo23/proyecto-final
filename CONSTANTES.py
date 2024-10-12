@@ -9,3 +9,4 @@ ORCO = Orco()
 ARCHER = Archer()
 KNIGHT = Knight()
 TIME = time.sleep(2)
+OPTION = "Esta opción no está disponible, vuelve a intentarlo"
