@@ -1,19 +1,20 @@
 from character import Characters, Warrior, Magician, Archer, Orco, Knight
 import time
 import random
-from dungeons import dungeon1, dungeon2, dungeon3, dungeon4, dungeon5 #Importe la mazmorras, asi empezamos el juego y armar el sistema de ataque
+from dungeons import * #Importe la mazmorras, asi empezamos el juego y armar el sistema de ataque
 from enemies import random_enemy
 from abilities import enemy_abilities
-from CONSTANTES import BIENVENIDA, SALUDO, WARRIOR, ORCO, MAGICIAN, ARCHER, KNIGHT, TIME, OPTION
-
+from CONSTANTES import * #Importe todas las variables constantes 
+from items import Item, items_list
 
 player_name = None
-player_progress = 0 
-dungeon_progress = 0 #Progreso de mazmorras, empezamos desde 0, por que no hemos completado ninguna de las 5 existentes
-list_character = []
+player_progress = 0 #Progreso del jugador 
+dungeon_progress = 0 #Progeso de la mazmorra actual
+list_character = [] 
 player1 = None
 player2 = None
 player3 = None
+current_dungeon = None
 
 def introductions(): #Primero imprimos la introduccion al juego
     global player_name
@@ -24,21 +25,21 @@ def introductions(): #Primero imprimos la introduccion al juego
     print(SALUDO + player_name)
 
 def character_introduction(): #Presentamos los personajes a elegir 
-    print(WARRIOR) #Arreglar que imprime todo junto
-    TIME
+    print(WARRIOR) 
+    time.sleep(2)
     print(MAGICIAN)
-    TIME
+    time.sleep(2)
     print(ORCO)
-    TIME
+    time.sleep(2)
     print(KNIGHT)
-    TIME
+    time.sleep(2)
     print(ARCHER)
-    TIME
+    time.sleep(2)
     
 def character_creator(): #Creamos los 3 personajes
     global player_name, list_character, player1, player2, player3
 
-    available_characters = ['guerrero', 'mago', 'arquero', 'orco', 'caballero']
+    available_characters = ['guerrero', 'mago', 'arquero', 'orco', 'caballero'] 
     contador = 0
     i = 0
     while contador < 3:
@@ -68,9 +69,8 @@ def character_creator(): #Creamos los 3 personajes
 def game():
     global player_progress #0
     global dungeon_progress #0
-    current_dungeon = None #Creamos una nueva variable de mazmorra actual
-    
-    
+    global current_dungeon #mazmorra actual
+
     dungeons = [dungeon1, dungeon2, dungeon3, dungeon4, dungeon5] #Colocamos en una lista las 5 mazmorras
     current_dungeon = dungeons[player_progress] 
     dungeon_progress = int(0)
@@ -82,6 +82,9 @@ def game():
             print("¡Has llegado al jefe final!")
             enemy = current_dungeon.enemies[4]
             character_attack(enemy)
+            player_progress += 1
+            current_dungeon = dungeons[player_progress]
+            print(f"¡Bienvenido a la mazmorra: {current_dungeon.name}!")
         else:
             enemy = current_dungeon.enemies[dungeon_progress]
             print(f"Nivel {dungeon_progress + 1}: {enemy.name}")
@@ -91,103 +94,87 @@ def game():
     time.sleep(3)
 
 def player_abilities_chooser(player):
+    i = 0
+    for abilitie in player.abilities:
+        print(f"{i+1} - {player.abilities[i].name}, Daño: {player.abilities[i].damage}")
+        i += 1
+    
     while True:
-                
-                if player == player1:
-                    print(f'Elegiste {player1.type}')
-                    print("HABILIDADES: ")
-                    print(f"1-{player1.abilities[0].name}, Daño: {player1.abilities[0].damage}")
-                    print(f"2-{player1.abilities[1].name}, Daño: {player1.abilities[1].damage}")
-                    print(f"3-{player1.abilities[2].name}, Daño: {player1.abilities[2].damage}")
-                    choice = int(input("Elige la habilidad que vas a utilizar: "))
-        
-                    if choice == 1:
-                        return player1.abilities[0]
-                    elif choice == 2:
-                        return player1.abilities[1]
-                    elif choice == 3:
-                        return player1.abilities[2]
-                    else:
-                        print("Esta opción no está disponible, vuelve a intentarlo")
-                        time.sleep(2)
-                    
-                elif player == player2:
-                    print(f'Elegiste {player2.type}')
-                    print("HABILIDADES: ")
-                    print(f"1-{player2.abilities[0].name}, Daño: {player2.abilities[0].damage}")
-                    print(f"2-{player2.abilities[1].name}, Daño: {player2.abilities[1].damage}")
-                    print(f"3-{player1.abilities[2].name}, Daño: {player2.abilities[2].damage}")
-                    choice = int(input("Elige la habilidad que vas a utilizar: "))
-        
-                    if choice == 1:
-                        return player2.abilities[0]
-                    elif choice == 2:
-                        return player2.abilities[1]
-                    elif choice == 3:
-                        return player2.abilities[2]
-                    else:
-                        print("Esta opción no está disponible, vuelve a intentarlo")
-                        time.sleep(2)
-                elif player == player3:
-                    print(f'Elegiste {player3.type}')
-                    print("HABILIDADES: ")
-                    print(f"1-{player3.abilities[0].name}, Daño: {player3.abilities[0].damage}")
-                    print(f"2-{player3.abilities[1].name}, Daño: {player3.abilities[1].damage}")
-                    print(f"3-{player3.abilities[2].name}, Daño: {player3.abilities[2].damage}")
-                    choice = int(input("Elige la habilidad que vas a utilizar: "))
-        
-                    if choice == 1:
-                        return player3.abilities[0]
-                    elif choice == 2:
-                        return player3.abilities[1]
-                    elif choice == 3:
-                        return player3.abilities[2]
-                    else:
-                        print("Esta opción no está disponible, vuelve a intentarlo")
-                        time.sleep(2)
-                else:    
-                    print(OPTION)
-                break
+        try:
+            choice = int(input('Ingrese la habilidad que desees: '))
+            if choice == 1:
+                return player.abilities[0]
+            elif choice == 2:
+                return player.abilities[1]
+            elif choice == 3:
+                return player.abilities[2]
+            else:
+                print("Esta opción no está disponible, vuelve a intentarlo")
+            time.sleep(2)
+            break
+        except ValueError:
+            print('Debes ingresar un numero valido entre 1-3')
+            return player_abilities_chooser(player)
+    
 def character_chooser():
-    global list_character, player1, player2, player3
+    global list_character, player1, player2, player3, current_dungeon
     i = 1
 
     for character in list_character:
         print(f'{i}- Personaje: {character.type}, Health: {character.health}, Armor: {character.armor}')
         i += 1
-    choice = int(input('Elige el Heroe con el que deseas atacar: '))
-    if choice == 1: 
-        return player1
-    elif choice == 2:
-        return player2
-    elif choice == 3:
-        return player3
-    else:
-        print(OPTION)
+
+    while True:
+        try:
+            choice = int(input('Elige el Heroe con el que deseas atacar: '))
+            if choice == 1: 
+                return player1
+            elif choice == 2:
+                return player2
+            elif choice == 3:
+                return player3
+            else:
+                print(OPTION)
+            break    
+        except ValueError:
+            print('Debes ingresar un numero valido entre 1-3')
+            return character_chooser()
+        
+def enemy_drop_item():
+    drop_chance = random.random()  # Valor entre 0.0 y 1.0
+    if drop_chance > 0.7:  # 30% de probabilidad de dejar caer un ítem
+        dropped_item = random.choice(items_list)
+        return dropped_item
+    
+    return None
         
 def character_attack(enemy):
-    global player1
-    global player2
-    global player3
-    global player_progress
-    global dungeon_progress
-    global list_character
+    global player1, player2, player3, player_progress, dungeon_progress, player, current_dungeon
     enemy_health = enemy.health 
-
-
+    
     while list_character is not None and enemy_health > 0:
         player = character_chooser()
+        if player is None:
+            return character_chooser()
+        else: 
+            pass
         print(f'Enemigo: {enemy.name}, Salud: {enemy_health}')
+
         player_attack = player_abilities_chooser(player) #Seleccionar la habilidad del jugador 
+        if player_attack is None:
+            return player_abilities_chooser(player)
+        else:
+            pass
         print(f'Ataque elegido: {player_attack.name}')
         time.sleep(2)
+
         enemy_attack = random.choice(enemy_abilities) #Selecionar las habilidades del enemigo
         print("3... 2... 1...")
         time.sleep(2)
 
         player_damage = player_attack.damage #Ataque de jugador
         enemy_health -= player_damage  
-        print("¡Ataque realizado con éxito!")
+        print(ATAQUE)
         time.sleep(2)
 
         print("El enemigo responde con:", enemy_attack.name) #Ataque enemigo
@@ -217,11 +204,22 @@ def character_attack(enemy):
             print(f"{player.name} ha sido derrotado.")
             list_character.remove(player)  # Eliminar al jugador de la lista si es derrotado
             if not list_character:  # Si no quedan jugadores
-                print("Todos los personajes han sido derrotados. ¡Fin del juego!")
+                print(GAME_OVER)
                 break
 
         if enemy_health <= 0:
             print(f"¡El enemigo {enemy.name} ha sido derrotado!") 
+            print(f"Has ganado {enemy.experience_reward} exp")
+
+            exp_reward = enemy.experience_reward
+            for player in list_character:
+                player.gain_experience(exp_reward)
+
+            dropped_item = enemy_drop_item()
+            if dropped_item:
+                print(f"¡El enemigo dejó caer un {dropped_item.name}!")
+                dropped_item.apply_item(player)
+
             dungeon_progress += 1 #Sumamos 1 cada vez que derrotamos a un enemigo 1 de 5
             if dungeon_progress < 5: 
                 print(f"Progreso en la mazmorra: {dungeon_progress + 1} de 5")
@@ -229,10 +227,8 @@ def character_attack(enemy):
             else:
                 print("¡Has completado la mazmorra!")
                 time.sleep(2)
-                player_progress += 1 #Avanza a la siguiente mazmorra 
                 dungeon_progress = 0 #Vuelve a 0 ya que tiene 5 enemegos en la proxima mazmorra
                 time.sleep(3)
         
-
 character_creator()
 game()

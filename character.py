@@ -1,24 +1,31 @@
 from abilities import Golpeo
 from abilities import ability_chooser
-from enemies import Enemies
 
 class Characters:
-    def __init__(self, name = "" , type = "", health=int(0), armor=int(0), level=1):
+    def __init__(self, name = "" , type = "", health=int(0), armor=int(0), level=1, experience=0):
         self.name = name
         self.type = type
         self.health = health
         self.armor = armor
         self.level = level
-        self.exp = 0
+        self.experience = experience 
+        self.experience_level_up = 100
         self.abilities = [Golpeo, ability_chooser(type), ability_chooser(type)] #3 habilidades, 2 al azar y una predeterminada
 
-    def levelup(self, level=1): #Hay que agregar mas niveles, subir la vida, si el nivel sube 
-        if self.exp >= 100:
-            level += 1
-        #Subir vida y subir escudo
+    def levelup(self):  
+        self.level += 1
+        self.health += 50
+        self.armor += 10
         
-    def experience(self, exp=0): #Nivel de experiencia sube a medida que derrotamos enemigos (en progreso)
-        pass
+    def gain_experience(self, exp): 
+        self.experience += exp
+        self.check_levelup()
+    
+    def check_levelup(self):
+        while self.experience >= self.experience_level_up:
+            self.experience -= self.experience_level_up
+            self.levelup()
+        
 
     def __repr__(self):  # Representación de características
         return f"Name: {self.name}, Type: {self.type}, Health: {self.health}, Armor: {self.armor}, Level: {self.level}"

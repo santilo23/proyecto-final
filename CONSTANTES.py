@@ -10,3 +10,5 @@ ARCHER = Archer()
 KNIGHT = Knight()
 TIME = time.sleep(2)
 OPTION = "Esta opción no está disponible, vuelve a intentarlo"
+ATAQUE = "Ataque realizado con éxito"
+GAME_OVER = "Todos los personajes han sido derrotados. ¡Fin del juego!"
