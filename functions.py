@@ -18,11 +18,11 @@ current_dungeon = None
 
 def introductions(): #Primero imprimos la introduccion al juego
     global player_name
-    print(BIENVENIDA)
+    print(WELCOME)
     time.sleep(3)
-    player_name = input('¿Como es tu nombre?')
+    player_name = input('¿Como es tu nombre? ')
     time.sleep(3)
-    print(SALUDO + player_name)
+    print(f'{SALUDO} {player_name}!')
 
 def character_introduction(): #Presentamos los personajes a elegir 
     print(WARRIOR) 
@@ -60,7 +60,7 @@ def character_creator(): #Creamos los 3 personajes
             available_characters.remove(character_choose)  # Eliminar el personaje elegido de la lista
             contador += 1        
         else:
-            print('Ya lo seleccionaste o no existe')
+            print(OPTION)
 
     player1 = list_character[0]
     player2 = list_character[1]
@@ -74,24 +74,36 @@ def game():
     dungeons = [dungeon1, dungeon2, dungeon3, dungeon4, dungeon5] #Colocamos en una lista las 5 mazmorras
     current_dungeon = dungeons[player_progress] 
     dungeon_progress = int(0)
-    print(f"¡Bienvenido a la mazmorra: {current_dungeon.name}!")
+    print(f"{WELCOME_DUNGEON}{current_dungeon.name}!")
     time.sleep(2)
 
     while dungeon_progress < 5:  
         if dungeon_progress == 4:
-            print("¡Has llegado al jefe final!")
+            print(BOSS)
             enemy = current_dungeon.enemies[4]
             character_attack(enemy)
             player_progress += 1
-            current_dungeon = dungeons[player_progress]
-            print(f"¡Bienvenido a la mazmorra: {current_dungeon.name}!")
+            if player_progress < 5:
+                current_dungeon = dungeons[player_progress]
+                print(f"{WELCOME_DUNGEON}{current_dungeon.name}!")
+            else:
+                player_progress = 0
+                dungeon_progress = 0
+                break
         else:
             enemy = current_dungeon.enemies[dungeon_progress]
             print(f"Nivel {dungeon_progress + 1}: {enemy.name}")
             time.sleep(3)
             character_attack(enemy)
-    print("¡Has completado todas las mazmorras!")
-    time.sleep(3)
+    print(FINISH)
+    finish()
+
+def finish():
+    choice = str(input('¿Deseas volver a jugar? Si/No')).upper()
+    if choice == 'si':
+        game()
+    else:
+        pass
 
 def player_abilities_chooser(player):
     i = 0
@@ -109,11 +121,11 @@ def player_abilities_chooser(player):
             elif choice == 3:
                 return player.abilities[2]
             else:
-                print("Esta opción no está disponible, vuelve a intentarlo")
+                print(OPTION)
             time.sleep(2)
             break
         except ValueError:
-            print('Debes ingresar un numero valido entre 1-3')
+            print(OPTION_INVALID)
             return player_abilities_chooser(player)
     
 def character_chooser():
@@ -137,7 +149,7 @@ def character_chooser():
                 print(OPTION)
             break    
         except ValueError:
-            print('Debes ingresar un numero valido entre 1-3')
+            print(OPTION_INVALID)
             return character_chooser()
         
 def enemy_drop_item():
@@ -229,6 +241,3 @@ def character_attack(enemy):
                 time.sleep(2)
                 dungeon_progress = 0 #Vuelve a 0 ya que tiene 5 enemegos en la proxima mazmorra
                 time.sleep(3)
-        
-character_creator()
-game()

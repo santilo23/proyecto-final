@@ -58,15 +58,15 @@ orco_abilities = [
 
 enemy_abilities = [
     Abilities("Golpe Rápido", "Enemy", 30),
-    Abilities("Ataque Sorpresa", "Enemy", 25),
-    Abilities("Arañazo", "Enemy", 15),
-    Abilities("Mordisco", "Enemy", 15),
-    Abilities("Lanzamiento de Escombros", "Enemy", 20),
-    Abilities("Picotazo", "Enemy", 20),
-    Abilities("Embiste", "Enemy", 25),
-    Abilities("Garras Filosas", "Enemy", 30),
-    Abilities("Aliento Venenoso", "Enemy", 20),
-    Abilities("Ataque Desesperado", "Enemy", 30),
+    Abilities("Ataque Sorpresa", "Enemy", 40),
+    Abilities("Arañazo", "Enemy", 50),
+    Abilities("Mordisco", "Enemy", 40),
+    Abilities("Lanzamiento de Escombros", "Enemy", 40),
+    Abilities("Picotazo", "Enemy", 40),
+    Abilities("Embiste", "Enemy", 40),
+    Abilities("Garras Filosas", "Enemy", 60),
+    Abilities("Aliento Venenoso", "Enemy", 40),
+    Abilities("Ataque Desesperado", "Enemy", 40),
 ]
 
 Golpeo = Abilities("Golpeo", "All", 20)
