@@ -4,7 +4,7 @@ class Item:
         self.effect_type = effect_type 
         self.effect_value = effect_value  
 
-    def apply_item(self, player):
+    def apply_item(self, player): #Los items se dividen en permanentes y consumible 
         if self.effect_type == 'permanente':
             if self.name == 'Aumento de Salud':
                 player.health += self.effect_value

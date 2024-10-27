@@ -73,17 +73,17 @@ def game():
 
     dungeons = [dungeon1, dungeon2, dungeon3, dungeon4, dungeon5] #Colocamos en una lista las 5 mazmorras
     current_dungeon = dungeons[player_progress] 
-    dungeon_progress = int(0)
+    dungeon_progress = int(0) 
     print(f"{WELCOME_DUNGEON}{current_dungeon.name}!")
     time.sleep(2)
 
-    while dungeon_progress < 5:  
+    while dungeon_progress < 5: #Bucle hasta llegar a la quinta mazmorra
         if dungeon_progress == 4:
             print(BOSS)
             enemy = current_dungeon.enemies[4]
             character_attack(enemy)
             player_progress += 1
-            if player_progress < 5:
+            if player_progress < 5: #Indica por indice la mazmorra actual
                 current_dungeon = dungeons[player_progress]
                 print(f"{WELCOME_DUNGEON}{current_dungeon.name}!")
             else:
@@ -98,14 +98,14 @@ def game():
     print(FINISH)
     finish()
 
-def finish():
+def finish(): #Al terminar el juego, una opcion para volver a jugar si lo desea
     choice = str(input('¿Deseas volver a jugar? Si/No')).upper()
     if choice == 'si':
         game()
     else:
         pass
 
-def player_abilities_chooser(player):
+def player_abilities_chooser(player): #Elegir la habilidad del personaje 
     i = 0
     for abilitie in player.abilities:
         print(f"{i+1} - {player.abilities[i].name}, Daño: {player.abilities[i].damage}")
@@ -128,7 +128,7 @@ def player_abilities_chooser(player):
             print(OPTION_INVALID)
             return player_abilities_chooser(player)
     
-def character_chooser():
+def character_chooser(): #Elegir el personaje con el que vas a atacar
     global list_character, player1, player2, player3, current_dungeon
     i = 1
 
@@ -152,7 +152,7 @@ def character_chooser():
             print(OPTION_INVALID)
             return character_chooser()
         
-def enemy_drop_item():
+def enemy_drop_item(): #Drop de items después de eliminar un enemigo
     drop_chance = random.random()  # Valor entre 0.0 y 1.0
     if drop_chance > 0.7:  # 30% de probabilidad de dejar caer un ítem
         dropped_item = random.choice(items_list)
@@ -160,7 +160,7 @@ def enemy_drop_item():
     
     return None
         
-def character_attack(enemy):
+def character_attack(enemy): #Sistema de ataque
     global player1, player2, player3, player_progress, dungeon_progress, player, current_dungeon
     enemy_health = enemy.health 
     
@@ -219,7 +219,7 @@ def character_attack(enemy):
                 print(GAME_OVER)
                 break
 
-        if enemy_health <= 0:
+        if enemy_health <= 0: #Salud del enemigo
             print(f"¡El enemigo {enemy.name} ha sido derrotado!") 
             print(f"Has ganado {enemy.experience_reward} exp")
 
@@ -227,8 +227,8 @@ def character_attack(enemy):
             for player in list_character:
                 player.gain_experience(exp_reward)
 
-            dropped_item = enemy_drop_item()
-            if dropped_item:
+            dropped_item = enemy_drop_item() 
+            if dropped_item: #Drop de items 
                 print(f"¡El enemigo dejó caer un {dropped_item.name}!")
                 dropped_item.apply_item(player)
 

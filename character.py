@@ -12,16 +12,16 @@ class Characters:
         self.experience_level_up = 100
         self.abilities = [Golpeo, ability_chooser(type), ability_chooser(type)] #3 habilidades, 2 al azar y una predeterminada
 
-    def levelup(self):  
+    def levelup(self):  #Al subir de nivel se suman atributos como vida y armadura
         self.level += 1
         self.health += 50
         self.armor += 10
         
-    def gain_experience(self, exp): 
+    def gain_experience(self, exp): #Suma la experiencia y retorna al chequea de nivel
         self.experience += exp
         self.check_levelup()
     
-    def check_levelup(self):
+    def check_levelup(self): #Chequea si los personajes suben de nivel
         while self.experience >= self.experience_level_up:
             self.experience -= self.experience_level_up
             self.levelup()

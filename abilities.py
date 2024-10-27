@@ -56,7 +56,7 @@ orco_abilities = [
     Abilities("Martillo de ira", "Orco", 40),
 ]
 
-enemy_abilities = [
+enemy_abilities = [ #10 habilidades de enemigos
     Abilities("Golpe Rápido", "Enemy", 30),
     Abilities("Ataque Sorpresa", "Enemy", 40),
     Abilities("Arañazo", "Enemy", 50),
@@ -69,9 +69,9 @@ enemy_abilities = [
     Abilities("Ataque Desesperado", "Enemy", 40),
 ]
 
-Golpeo = Abilities("Golpeo", "All", 20)
+Golpeo = Abilities("Golpeo", "All", 20) #Todos los personajes tienen por defecto el golpeo
 
-def ability_chooser(character_type):
+def ability_chooser(character_type): #Habilidad random para los personajes del juego cuando desean atacar
     ability = None
     if character_type == "Guerrero":
         ability = random.choice(warrior_abilities)
